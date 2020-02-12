@@ -103,13 +103,7 @@ holdScore = () => {
 }
 
 const startOver = () => {
-    console.log('I am here')
-    p1TotalScore = 0;
-    p2TotalScore = 0;
-    clearCurrentScore(p1currentScore)
-    clearCurrentScore(p2currentScore)
-    p1Score.innerText = '0'
-    p2Score.innerText = '0'
+     window.location.reload()
 
 }
 
