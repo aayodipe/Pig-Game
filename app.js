@@ -9,36 +9,45 @@ GAME RULES:
 
 // ** * A ** ** ** ** ** *
 
-// on window load,
+
 
 // get the variables from the dom
-const roll = document.querySelector('.btn-roll')
-const hold = document.querySelector('.btn-hold')
-const startNewGame = document.querySelector('.btn-new')
-const p1Session = document.querySelector('.player-0-panel')
-const p2Session = document.querySelector('.player-1-panel')
-let player, playerSession
-const player1 = document.querySelector('#name-0');
-const player2 = document.querySelector('#name-1');
-const p1currentScore = document.querySelector('#current-0');
-const p2currentScore = document.querySelector('#current-1');
-const p1Score = document.querySelector('#score-0');
-const p2Score = document.querySelector('#score-1');
-let current = 0;
-let p1TotalScore = 0;
-let p2TotalScore = 0;
+let player, playerSession, curent, p1TotalScore, p2TotalScore, dice
+const selectDiv = (e) => {
+    return document.querySelector(e)
+}
+const roll = selectDiv('.btn-roll')
+const hold = selectDiv('.btn-hold')
+const startNewGame = selectDiv('.btn-new')
+const p1Session = selectDiv('.player-0-panel')
+const p2Session = selectDiv('.player-1-panel')
+const player1 = selectDiv('#name-0');
+const player2 = selectDiv('#name-1');
+const p1currentScore = selectDiv('#current-0');
+const p2currentScore = selectDiv('#current-1');
+const p1Score = selectDiv('#score-0');
+const p2Score = selectDiv('#score-1');
+current = 0;
+p1TotalScore = 0;
+p2TotalScore = 0;
 
-let dice
+//
+const rolledOne = (pScore, p1, p2) => {
+    clearCurrentScore(pScore) /* clear current score */
+    p1.classList.remove('active')
+    p2.classList.add('active')
+}
+
 const rolledNumber = () => {
     let dice = Math.floor(Math.random() * 6) + 1;
     document.querySelector('img').setAttribute('src', 'dice-' + dice + '.png ')
     console.log(dice)
 
+
     if (p1Session.getAttribute('class').includes('active')) {
         if (dice === 1) {
-            clearCurrentScore(p1currentScore) /* clear current score */
-            p1Session.classList.remove('active')
-            p2Session.classList.add('active')
+
+            rolledOne(p1currentScore, p1Session, p2Session)
 
         } else {
             current += dice;
@@ -47,9 +56,8 @@ const rolledNumber = () => {
 
     } else {
         if (dice === 1) {
-            clearCurrentScore(p2currentScore) /* clear current score */
-            p2Session.classList.remove('active')
-            p1Session.classList.add('active')
+
+            rolledOne(p2currentScore, p2Session, p1Session)
 
         } else {
             current += dice;
@@ -73,17 +81,10 @@ holdScore = () => {
             player1.innerText = 'Winner!!!'
             hold.remove();
             roll.remove();
-
-
-
-
         } else {
-            clearCurrentScore(p1currentScore) /* clear current score */
-            p1Session.classList.remove('active')
-            p2Session.classList.add('active')
+
+            rolledOne(p1currentScore, p1Session, p2Session)
         }
-
-
     } else {
         p2TotalScore += current;
         p2Score.innerText = p2TotalScore;
@@ -94,16 +95,15 @@ holdScore = () => {
 
 
         } else {
-            clearCurrentScore(p2currentScore) /* clear current score */
-            p2Session.classList.remove('active')
-            p1Session.classList.add('active')
+
+            rolledOne(p2currentScore, p2Session, p1Session)
         }
 
     }
 }
 
 const startOver = () => {
-     window.location.reload()
+    window.location.reload()
 
 }
 
